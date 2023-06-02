@@ -18,14 +18,10 @@ app.use(express.json())
 app.use(morgan('dev'))
 
 // routes
-app.get('/', (req, res) => {
-    res.status(200).send({
-        message: 'Server running'
-    })
-})
+app.use('/api/v1/user/', require('./routes/UserRoute')) // user auth route
 
 // port
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 9001
 
 // listening
 app.listen(PORT, () => {
