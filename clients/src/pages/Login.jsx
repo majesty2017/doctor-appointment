@@ -10,13 +10,13 @@ const Login = () => {
     try {
       await axios.post('/api/v1/user/login', data).then(res => {
         if (res.data.success) {
-          localStorage.setItem('access-token', res.data.token)
+          localStorage.setItem('token', res.data.token)
           message.success(res.data.message)
           navigate('/')
         } else {
           message.error(res.data.message);
         }
-      })
+      }) 
     } catch (error) {
       console.log(error);
       message.error("something went wrong");
