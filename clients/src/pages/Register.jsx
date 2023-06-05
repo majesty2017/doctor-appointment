@@ -1,23 +1,30 @@
-import { Form, Input, message } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/RegisterStyle.css';
-import axios from 'axios'
+import { Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/RegisterStyle.css";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../redux/features/loadingSlice";
 
 const Register = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onFinishedHandler = async (e) => {
     try {
-      await axios.post('/api/v1/user/register', e).then(res => {
+      dispatch(showLoading());
+      await axios.post("/api/v1/user/register", e).then((res) => {
         if (res.data.success) {
-          message.success(res.data.message)
-          navigate('/login')
+          message.success(res.data.message);
+          dispatch(hideLoading());
+          navigate("/login");
         } else {
-          message.error('Failed to register')
+          dispatch(hideLoading());
+          message.error("Failed to register");
         }
-      })
+      });
     } catch (error) {
+      dispatch(hideLoading());
       console.log(error);
-      message.error(`Something went wrong!`)
+      message.error(`Something went wrong!`);
     }
   };
   return (
@@ -43,10 +50,10 @@ const Register = () => {
           </button>
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginTop: '10px',
-              gap: '10px',
+              display: "flex",
+              alignItems: "center",
+              marginTop: "10px",
+              gap: "10px",
             }}
           >
             <span>Already have an accout?</span>
